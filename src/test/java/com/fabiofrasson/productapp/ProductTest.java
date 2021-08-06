@@ -25,7 +25,7 @@ public class ProductTest {
     Product product = new Product("iPhone 10", 789);
     Product savedProduct = repository.save(product);
 
-    Assertions.assertNotNull(savedProduct);
+    Assertions.assertEquals(product.getName(), savedProduct.getName());
   }
 
   @Test
@@ -68,13 +68,11 @@ public class ProductTest {
   @Order(4)
   public void shouldListProducts() {
     List<Product> products = repository.findAll();
-    List<Product> productList = new ArrayList<>();
 
     for (Product product : products) {
       System.out.println(product);
     }
-
-    Assertions.assertNotSame(products, productList);
+    Assertions.assertNotEquals(products.size(), 0);
   }
 
   @Test
@@ -87,9 +85,9 @@ public class ProductTest {
 
     repository.deleteById(id);
 
-    boolean notExistsAfterDeletion = repository.existsById(id);
+    boolean existsAfterDeletion = repository.existsById(id);
 
     Assertions.assertTrue(existsBeforeDeletion);
-    Assertions.assertFalse(notExistsAfterDeletion);
+    Assertions.assertFalse(existsAfterDeletion);
   }
 }
